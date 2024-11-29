@@ -1,11 +1,10 @@
 import "./App.css";
-import ChessGame from "./components/ChessGame";
+import Home from "./pages/Home";
+
 function App() {
   return (
     <>
-      <div className="w-full h-[100vh] bg-stone-900">
-        <ChessGame />
-      </div>
+     <Home/>
     </>
   );
 }

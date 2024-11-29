@@ -4,13 +4,8 @@ import { Pieces } from "../constant/Pieces";
 import { ChessGameContext } from "../context/GameContext";
 
 const ChessGame = () => {
-  const {
-    game,
-    getGameStatus,
-    highlightedSquares,
-    onSquareClick,
-    onPieceDrop,
-  } = useContext(ChessGameContext);
+  const { game, gameStatus, highlightedSquares, onSquareClick, onPieceDrop } =
+    useContext(ChessGameContext);
 
   // Use useMemo to create customPieces only once
   const customPieces = useMemo(() => {
@@ -56,21 +51,23 @@ const ChessGame = () => {
 
   return (
     <>
-      <Chessboard
-        position={game.fen()}
-        onPieceDrop={onPieceDrop}
-        onSquareClick={onSquareClick} // Add square click handler
-        boardWidth={560}
-        customPieces={customPieces}
-        customBoardStyle={{
-          borderRadius: "4px",
-          boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
-        }}
-        customDarkSquareStyle={{ backgroundColor: "#90a955" }} // Green
-        customLightSquareStyle={{ backgroundColor: "#ffffff" }} // Off-white
-        highlightedSquares={highlightedSquares} // Pass highlighted squares
-      />
-      {/* <div>{getGameStatus()}</div> */}
+      <div className="w-[580px]  flex flex-col gap-4 items-center">
+        {<div className="text-sm font-inter text-white">{gameStatus}</div>}
+        <Chessboard
+          position={game.fen()}
+          onPieceDrop={onPieceDrop}
+          onSquareClick={onSquareClick} // Add square click handler
+          boardWidth={560}
+          customPieces={customPieces}
+          customBoardStyle={{
+            borderRadius: "4px",
+            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
+          }}
+          customDarkSquareStyle={{ backgroundColor: "#90a955" }} // Green
+          customLightSquareStyle={{ backgroundColor: "#ffffff" }} // Off-white
+          highlightedSquares={highlightedSquares} // Pass highlighted squares
+        />
+      </div>
     </>
   );
 };
