@@ -51,13 +51,12 @@ const ChessGame = () => {
 
   return (
     <>
-      <div className="w-[580px]  flex flex-col gap-4 items-center">
-        {<div className="text-sm font-inter text-white">{gameStatus}</div>}
+      <div>
         <Chessboard
           position={game.fen()}
           onPieceDrop={onPieceDrop}
           onSquareClick={onSquareClick} // Add square click handler
-          boardWidth={560}
+          boardWidth={400}
           customPieces={customPieces}
           customBoardStyle={{
             borderRadius: "4px",
