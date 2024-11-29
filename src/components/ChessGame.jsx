@@ -1,73 +1,16 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { Chess } from "chess.js";
+import React, { useState, useMemo, useCallback, useContext } from "react";
 import { Chessboard } from "react-chessboard";
 import { Pieces } from "../constant/Pieces";
+import { ChessGameContext } from "../context/GameContext";
 
 const ChessGame = () => {
-  const [game, setGame] = useState(new Chess());
-  const [moveLog, setMoveLog] = useState([]);
-  const [highlightedSquares, setHighlightedSquares] = useState([]); // Track highlighted squares
-  const [selectedSquare, setSelectedSquare] = useState(null); // Track the selected piece
-
-  const getGameStatus = () => {
-    if (game.isGameOver()) {
-      if (game.isCheckmate()) return "Checkmate";
-      if (game.isDraw()) return "Draw";
-      if (game.isStalemate) return "Stalemate";
-      return "Game Over";
-    }
-
-    if (game.isCheck()) return "Check";
-
-    return `${game.turn() === "w" ? "White" : "Black"} to move`;
-  };
-
-  // Handle square click to select a piece and highlight its possible moves
-  const onSquareClick = (square) => {
-    const piece = game.get(square);
-    if (!piece) {
-      // If no piece is selected, return early
-      return;
-    }
-
-    // If the same piece is clicked again, clear the highlights
-    if (selectedSquare === square) {
-      setSelectedSquare(null);
-      setHighlightedSquares([]);
-    } else {
-      setSelectedSquare(square);
-      const moves = game.legal_moves({ square }); // Get legal moves for the selected piece
-      const moveSquares = moves.map((move) => move.to); // Extract the target squares
-      setHighlightedSquares(moveSquares); // Set the highlighted squares
-    }
-  };
-
-  const onDrop = useCallback(
-    (sourceSquare, targetSquare) => {
-      try {
-        const move = game.move({
-          from: sourceSquare,
-          to: targetSquare,
-          promotion: "q",
-        });
-
-        if (move) {
-          setGame(new Chess(game.fen()));
-          const moveNotation = `${game.turn() === "w" ? "Black" : "White"}: ${
-            move.san
-          }`;
-          setMoveLog((prev) => [...prev, move]);
-          setHighlightedSquares([]); // Clear highlighted squares after the move
-          setSelectedSquare(null); // Deselect the piece
-          return true;
-        }
-        return false;
-      } catch (error) {
-        return false;
-      }
-    },
-    [game]
-  );
+  const {
+    game,
+    getGameStatus,
+    highlightedSquares,
+    onSquareClick,
+    onPieceDrop,
+  } = useContext(ChessGameContext);
 
   // Use useMemo to create customPieces only once
   const customPieces = useMemo(() => {
@@ -115,7 +58,7 @@ const ChessGame = () => {
     <>
       <Chessboard
         position={game.fen()}
-        onPieceDrop={onDrop}
+        onPieceDrop={onPieceDrop}
         onSquareClick={onSquareClick} // Add square click handler
         boardWidth={560}
         customPieces={customPieces}
@@ -123,11 +66,11 @@ const ChessGame = () => {
           borderRadius: "4px",
           boxShadow: "0 2px 10px rgba(0, 0, 0, 0.3)",
         }}
-        customDarkSquareStyle={{ backgroundColor: "#22c55e" }} // Green
-        customLightSquareStyle={{ backgroundColor: "#F5F5DC" }} // Off-white
+        customDarkSquareStyle={{ backgroundColor: "#90a955" }} // Green
+        customLightSquareStyle={{ backgroundColor: "#ffffff" }} // Off-white
         highlightedSquares={highlightedSquares} // Pass highlighted squares
       />
-      <div>{getGameStatus()}</div>
+      {/* <div>{getGameStatus()}</div> */}
     </>
   );
 };
