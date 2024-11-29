@@ -1,9 +1,11 @@
 import "./App.css";
-
+import ChessGame from "./components/ChessGame";
 function App() {
   return (
     <>
-      <p className="text-red-600">Hello World</p>
+      <div className="w-full h-[100vh] bg-stone-900">
+        <ChessGame />
+      </div>
     </>
   );
 }
