@@ -12,6 +12,7 @@ const MovesList = () => {
               const whiteMove = move.san;
               const blackMove = moveLog[index + 1]?.san || "";
               rows.push(
+                
                 <div
                   key={index}
                   className={`flex justify-between p-1 ${
