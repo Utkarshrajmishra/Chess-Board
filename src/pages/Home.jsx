@@ -8,6 +8,7 @@ const Home = () => {
           <div></div>
           <ChessGame />
         </div>
+        
         <div >
             <p className="text-white font-inter font-bold">Moves List</p>
           <MovesList />
